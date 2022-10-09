@@ -1,1 +1,0 @@
-{"remote": [{"name": "SSH", "remote_binary": "ssh", "cmd_line": "-4 -2 $user@$address"}, {"name": "PuTTY", "remote_binary": "putty", "cmd_line": "-4 -2 -pw $password $user@$address"}]}
