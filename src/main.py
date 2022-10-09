@@ -11,6 +11,8 @@ from settings import load_file
 
 DEBUG = False
 
+
+
 SETTINGS_FILENAME = "settings.json"
 SERVERS_FILENAME = "servers.json"
 
@@ -192,9 +194,8 @@ if __name__ == '__main__':
         if prompt == "remote":
             remote(SETTINGS, SERVERS)
         if prompt == "help":
-            with open("help", "r") as f:
-                for i in f.readlines():
-                    print(i)
+            with open("help.txt", "r") as f:
+                print(f.read())
         if prompt == "addprofile":
             addprofile(SETTINGS, SERVERS)
         if prompt == "removeprofile":
