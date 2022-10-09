@@ -1,8 +1,5 @@
-install-command:
-	@pip install .
-
-remove-command:
-	@pip uninstall -y serverocelot; exit 0
+install:
+	
 
 reinstall-command: remove-command install-command
 
