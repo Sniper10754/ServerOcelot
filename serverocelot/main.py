@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 import json
-from typing import Literal
+import os
 
 from rich import print
 
@@ -11,10 +11,10 @@ from settings import load_file
 
 DEBUG = False
 
+BASEDIR = os.path.realpath(os.path.dirname(__file__))
 
-
-SETTINGS_FILENAME = "settings.json"
-SERVERS_FILENAME = "servers.json"
+SETTINGS_FILENAME = f"{BASEDIR}/settings.json"
+SERVERS_FILENAME = f"{BASEDIR}/servers.json"
 
 # * Get config
 SETTINGS = {}
@@ -49,7 +49,8 @@ def dprint(*args, **kwargs):
 def list_remote_profiles(settings: SETTINGS):
     print("Profiles: ")
     for i, profile in enumerate(settings["remote"]):
-        print("\t" + str(i) + ": " + profile["user"] + "@" + profile["address"])
+        print("\t" + str(i) + ": " +
+              profile["user"] + "@" + profile["address"])
 
 
 def list_servers(servers: SERVERS):
@@ -66,9 +67,6 @@ def remote_wrapper(remote_profile, server_profile):
                                  password=server_profile["password"],
                                  cmd=remote_profile["cmd_line"],
                                  binary=remote_profile["remote_binary"])
-
-
-
 
 
 def remote(settings: SETTINGS, servers: SERVERS):
@@ -115,38 +113,39 @@ def addprofile(settings: SETTINGS, servers: SERVERS):
 
         if inp != None:
             break
-    
+
     if inp == "remote":
-            path = settings["remote"]
-            name = input("Remote name > ")
-            remote_binary = input("Binary name > ")
-            cmd_line = input("Command line ex: $user@$address > ")
+        path = settings["remote"]
+        name = input("Remote name > ")
+        remote_binary = input("Binary name > ")
+        cmd_line = input("Command line ex: $user@$address > ")
 
-            obj = {
-                "name": name,
-                "remote_binary": remote_binary,
-                "cmd_line": cmd_line
-            }
+        obj = {
+            "name": name,
+            "remote_binary": remote_binary,
+            "cmd_line": cmd_line
+        }
 
-            path.append(obj)
+        path.append(obj)
 
-            Ellipsis
+        Ellipsis
     elif inp == "server":
-            path = servers
-            address = input("Address > ")
-            user = input("User > ")
-            password = input("Password > ")
+        path = servers
+        address = input("Address > ")
+        user = input("User > ")
+        password = input("Password > ")
 
-            obj = {
-                "address": address,
-                "user": user,
-                "password": password
-            }
+        obj = {
+            "address": address,
+            "user": user,
+            "password": password
+        }
 
-            path.append(obj)
+        path.append(obj)
 
-            Ellipsis
+        Ellipsis
     update_config_and_servers()
+
 
 def removeprofile(settings: SETTINGS, servers: SERVERS):
     inp: str()
@@ -155,20 +154,21 @@ def removeprofile(settings: SETTINGS, servers: SERVERS):
 
         if inp != None:
             break
-    
+
     if inp == "remote":
         list_remote_profiles(SETTINGS)
         index = input("Choose a remote > ")
-        
+
         del SETTINGS["remote"][int(index)]
-        
+
     if inp == "server":
         list_servers(SETTINGS)
         index = input("Choose a server > ")
-        
+
         del SERVERS[int(index)]
-        
+
     update_config_and_servers()
+
 
 def init():
     # * Get config
@@ -179,9 +179,10 @@ def init():
     global SERVERS
     SERVERS = load_file(SERVERS_FILENAME)
 
-if __name__ == '__main__':
+
+def main():
     init()
-    
+
     print(TITLE)
     print("To orientate yourself type in \"help\"")
 
@@ -200,3 +201,7 @@ if __name__ == '__main__':
             addprofile(SETTINGS, SERVERS)
         if prompt == "removeprofile":
             removeprofile(SETTINGS, SERVERS)
+
+
+if __name__ == '__main__':
+    main()
