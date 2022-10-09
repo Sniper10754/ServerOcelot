@@ -1,0 +1,4 @@
+Help
+
+addprofile: adds a profile, the type of profile is asked at runtime
+removeprofile: removes a profile, the type of profile is asked at runtime
